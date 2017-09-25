@@ -1,0 +1,13 @@
+This program generates a pair of line graphs showing how a Broadband MLP's
+costs spread over a range of subscribers in total and subscribers per mile.
+It will illustrate how much profit or loss the MLP will incure for a given
+total monthly subscriber price for a given number of subscribers.
+
+The cost basis is computed based on the idea that there are three "buckets"
+of costs (expenses): the per network (fixed) costs, the per subscriber costs,
+and per mile costs.  The basis is computed from these numbers (presently 
+hardwired and taken from the MBI Sustainability Worksheet):
+
+Complete Documentation is in the source file (MLPCostGraphs.tcl) and a paper
+based on this data is in the    MLPCostsWithRegionalization subdirectory in a
+file named MLPCostsWithRegionalization.tex (LaTeX source, a plain text file).
