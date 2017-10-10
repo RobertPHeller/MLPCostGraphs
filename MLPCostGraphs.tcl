@@ -8,7 +8,7 @@
 #  Author        : $Author$
 #  Created By    : Robert Heller
 #  Created       : Fri Sep 22 13:23:32 2017
-#  Last Modified : <170925.1623>
+#  Last Modified : <171009.2054>
 #
 #  Description	
 #
@@ -470,8 +470,8 @@ snit::type MLPCostGraphs {
         $graph delete all
         #** Draw Per Network graph
         # Draw scales
-        set scaleX [canvas_drawXaxis $graph [expr {.5 * 72}] [expr {6 * 72}] [expr {.5 * 72}] [expr {.125 * 72}] $MinSub $MaxSub]
-        set scaleY [canvas_drawYaxis $graph [expr {.5 * 72}] [expr {6 * 72}] [expr {.5 * 72}] [expr {.125 * 72}] $maxPNdollars $minPNdollars]
+        set scaleX [canvas_drawXaxis $graph [expr {.5 * 72}] [expr {6 * 72}] [expr {.5 * 72}] [expr {.125 * 72}] $MinSub $MaxSub {Total Subscribers}]
+        set scaleY [canvas_drawYaxis $graph [expr {.5 * 72}] [expr {6 * 72}] [expr {.5 * 72}] [expr {.125 * 72}] $maxPNdollars $minPNdollars {MLP Fee}]
         # Draw graph
         $type canvas_drawLineGraph $graph [expr {.5 * 72}] $scaleX [expr {.5 * 72}] $scaleY $MinSub $MaxSub $minPNdollars [mytypemethod MonthlyPerNetworkSubscriberFee]
         # Draw blue (goal) and red (actual) lines
@@ -483,8 +483,8 @@ snit::type MLPCostGraphs {
         $type canvas_Legend $graph [expr {.75 * 72}] [expr {5.5 * 72}] "Per Network Costs vs.\ntotal Subscribers" $goalpnmlpfee "Goal per-network MLP Fee" $Subscribers "Total Subscribers"
         #** Draw Per Mile graph
         # Draw scales
-        set scaleX [canvas_drawXaxis $graph [expr {.5 * 72}] [expr {6 * 72}] [expr {7 * 72}] [expr {.125 * 72}] $MinSubPMile $MaxSubPMile]
-        set scaleY [canvas_drawYaxis $graph [expr {7 * 72}] [expr {12.5 * 72}] [expr {.5 * 72}] [expr {.125 * 72}] $maxPMdollars $minPMdollars]
+        set scaleX [canvas_drawXaxis $graph [expr {.5 * 72}] [expr {6 * 72}] [expr {7 * 72}] [expr {.125 * 72}] $MinSubPMile $MaxSubPMile {Subscribers per Mile}]
+        set scaleY [canvas_drawYaxis $graph [expr {7 * 72}] [expr {12.5 * 72}] [expr {.5 * 72}] [expr {.125 * 72}] $maxPMdollars $minPMdollars {MLP Fee}]
         # Draw graph
         $type canvas_drawLineGraph $graph [expr {.5 * 72}] $scaleX [expr {7 * 72}] $scaleY $MinSubPMile $MaxSubPMile  $minPMdollars [mytypemethod MonthlyPerMileSubscriberFee]
         # Draw blue (goal) and red (actual) lines
@@ -571,8 +571,8 @@ snit::type MLPCostGraphs {
         $pdfgraph startPage -paper [list [expr {6 * 72}] [expr {6 * 72}]] \
               -orient false
         # Draw scales
-        set scaleX [pdf_drawXaxis $pdfgraph [expr {.5 * 72}] [expr {6 * 72}] [expr {.5 * 72}] [expr {.125 * 72}] $minsub $maxsub]
-        set scaleY [pdf_drawYaxis $pdfgraph [expr {.5 * 72}] [expr {6 * 72}] [expr {.5 * 72}] [expr {.125 * 72}] $maxPNdollars $minPNdollars]
+        set scaleX [pdf_drawXaxis $pdfgraph [expr {.5 * 72}] [expr {6 * 72}] [expr {.5 * 72}] [expr {.125 * 72}] $minsub $maxsub {Total SubScribers}]
+        set scaleY [pdf_drawYaxis $pdfgraph [expr {.5 * 72}] [expr {6 * 72}] [expr {.5 * 72}] [expr {.125 * 72}] $maxPNdollars $minPNdollars {MLP Fee}]
         # Draw graph
         $type pdf_drawLineGraph $pdfgraph [expr {.5 * 72}] $scaleX [expr {.5 * 72}] $scaleY $minsub $maxsub $minPNdollars [mytypemethod MonthlyPerNetworkSubscriberFee]
         # Draw blue (goal) and red (actual) lines
@@ -594,8 +594,8 @@ snit::type MLPCostGraphs {
         $pdfgraph startPage -paper [list [expr {6 * 72}] [expr {6 * 72}]] \
               -orient false
         # Draw scales
-        set scaleX [pdf_drawXaxis $pdfgraph [expr {.5 * 72}] [expr {6 * 72}] [expr {.5 * 72}] [expr {.125 * 72}] $minsubpmile $maxsubpmile]
-        set scaleY [pdf_drawYaxis $pdfgraph [expr {.5 * 72}] [expr {6 * 72}] [expr {.5 * 72}] [expr {.125 * 72}] $maxPMdollars $minPMdollars]
+        set scaleX [pdf_drawXaxis $pdfgraph [expr {.5 * 72}] [expr {6 * 72}] [expr {.5 * 72}] [expr {.125 * 72}] $minsubpmile $maxsubpmile {Subscribers Per Mile}]
+        set scaleY [pdf_drawYaxis $pdfgraph [expr {.5 * 72}] [expr {6 * 72}] [expr {.5 * 72}] [expr {.125 * 72}] $maxPMdollars $minPMdollars {MLP Fee}]
         # Draw graph
         $type pdf_drawLineGraph $pdfgraph [expr {.5 * 72}] $scaleX [expr {.5 * 72}] $scaleY $minsubpmile $maxsubpmile $minPMdollars [mytypemethod MonthlyPerMileSubscriberFee]
         # Draw blue (goal) and red (actual) lines
@@ -627,7 +627,7 @@ snit::type MLPCostGraphs {
         }
     }
      #** Draw X Axis to PDF file
-    proc pdf_drawXaxis {pdf minX maxX Y tick left right} {
+    proc pdf_drawXaxis {pdf minX maxX Y tick left right legend} {
         set drange [expr {$right - $left}]
         set prange [expr {$maxX - $minX}]
         set delta  [expr {$drange / 25.0}]
@@ -648,10 +648,11 @@ snit::type MLPCostGraphs {
             }
             incr l
         }
+        $pdf text $legend -x [expr {($prange / 2)+$minX}] -y 0
         return $scaleX
     }
     # Draw Y Axis to PDF file
-    proc pdf_drawYaxis {pdf minY maxY X tick bottom top} {
+    proc pdf_drawYaxis {pdf minY maxY X tick bottom top legend} {
         set drange [expr {$bottom - $top}]
         set prange [expr {$maxY - $minY}]
         set delta  [expr {$drange / 25.0}]
@@ -666,13 +667,14 @@ snit::type MLPCostGraphs {
             $pdf line $X $Y [expr {$X - $tick}] $Y
             $pdf setFont .125i Courier
             if {($l % 10) == 0} {
-                set lab [string trim [format "%5g" $P]]
+                set lab [string trim [format {$%5.2f} $P]]
                 set labw [$pdf getStringWidth $lab]
                 set offset [expr {$labw / 2.0}]
                 $pdf text $lab -x [expr {$X  - ($tick*2.0)}]  -y [expr {$Y + $offset}] -angle 90
             }
             incr l
         }
+        $pdf text $legend -x 0 -y [expr {($prange / 2.0)+$minY}] -angle 90
         return $scaleY
     }
     #** Draw PDF Legend
@@ -719,7 +721,7 @@ snit::type MLPCostGraphs {
         return [expr {abs($y2 - $y1)}]
     }
     #** Draw X Axis on screen
-    proc canvas_drawXaxis {canvas minX maxX Y tick left right} {
+    proc canvas_drawXaxis {canvas minX maxX Y tick left right legend} {
         set drange [expr {$right - $left}]
         set prange [expr {$maxX - $minX}]
         set delta  [expr {$drange / 25.0}]
@@ -739,10 +741,11 @@ snit::type MLPCostGraphs {
             }
             incr l
         }
+        $canvas create text [expr {($prange / 2)+$minX}] [expr {-$Y + ($tick*3)}] -text $legend -font $font -anchor n
         return $scaleX
     }
     #** Draw Y Axis on screen
-    proc canvas_drawYaxis {canvas minY maxY X tick bottom top} {
+    proc canvas_drawYaxis {canvas minY maxY X tick bottom top legend} {
         set drange [expr {$bottom - $top}]
         set prange [expr {$maxY - $minY}]
         set delta  [expr {$drange / 25.0}]
@@ -756,12 +759,13 @@ snit::type MLPCostGraphs {
             #puts stderr "*** canvas_drawYaxis: Y = $Y"
             $canvas create line $X -$Y [expr {$X - $tick}] -$Y
             if {($l % 10) == 0} {
-                set lab [string trim [format "%5g" $P]]
+                set lab [string trim [format {$%5.2f} $P]]
                 set labw [canvas_StringWidth  $canvas $lab $font]
                 $canvas create text [expr {$X - $tick}] -$Y -text $lab -font $font -anchor e
             }
             incr l
         }
+        $canvas create text 0 [expr {-(($prange / 2.0)+$minY)}] -text $legend -font $font -anchor e
         return $scaleY
     }
     #** Draw Legend on screen
